@@ -97,15 +97,20 @@ git clone https://github.com/yr004-yash/Scribble_Chat.git
 
 For the **back-end**, install the dependencies once via the terminal.
 ```bash
-cd server
+cd Backend
 npm install
 ```
 
-Create .env file in backend server folder and set the below code.
+Create .env file in Backend folder and set the below code.
 ```bash
 FRONTEND_URL = 
 MONGODB_URL = 
 PORT = 
+```
+
+Create .env file in Frontend folder and set the below code.
+```bash
+VITE_BACKEND_URL = 
 ```
 
 If you want to run the **back-end**, go to *backtend* folder via the terminal.
@@ -115,6 +120,7 @@ npm run start
 
 For the **front-end**, install the dependencies once via the terminal.
 ```bash
+cd Frontend
 npm install
 ```
 
