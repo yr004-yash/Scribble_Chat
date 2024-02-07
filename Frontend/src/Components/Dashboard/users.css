@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.user-avatar {
+    background: linear-gradient(135deg, #ffffff,#2980B9, #6DD5FA,#2980B9,#FFFFFF) !important;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 2%;
+}
