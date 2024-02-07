@@ -55,6 +55,10 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    cors: {
+        origin: 'https://scribble-chat.vercel.app',
+        credentials: true
+    }
 });
 await server.start();
 // app.use(cors({
