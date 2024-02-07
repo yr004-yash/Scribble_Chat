@@ -70,7 +70,7 @@ await server.start();
 app.use(cors());
 app.use(
     '/graphql',
-    cors({ origin: [`${process.env.FRONTEND_URL}`] }),
+    // cors({ origin: [`${process.env.FRONTEND_URL}`] }),
     express.json(),
     expressMiddleware(server),
 )
