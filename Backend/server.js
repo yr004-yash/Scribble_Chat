@@ -61,13 +61,13 @@ const server = new ApolloServer({
     // }
 });
 await server.start();
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-    optionsSuccessStatus:200,
-}),)
-// app.use(cors());
+// app.use(cors({
+//     origin: process.env.FRONTEND_URL,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+//     optionsSuccessStatus:200,
+// }),)
+app.use(cors());
 app.use(
     '/graphql',
     cors({ origin: [`${process.env.FRONTEND_URL}`] }),
