@@ -57,11 +57,12 @@ const server = new ApolloServer({
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await server.start();
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-}),)
+// app.use(cors({
+//     origin: process.env.FRONTEND_URL,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+// }),)
+app.use(cors());
 app.use(
     '/graphql',
     express.json(),
