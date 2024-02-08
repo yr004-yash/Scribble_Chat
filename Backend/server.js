@@ -26,13 +26,14 @@ app.use(cookieParser());
 import http from 'http';
 import { Server } from 'socket.io';
 // code for real time chat application
+const allowedOrigins='*';
 const httpServer = http.createServer(app);
  const io = new Server(httpServer, {
-    cors: {
-        origin:"*" ,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true
-    }
+    cors:({
+        origin: allowedOrigins ,
+        // methods: ["GET", "POST", "PUT", "DELETE"],
+        // credentials: true
+    })
 });
 
 
