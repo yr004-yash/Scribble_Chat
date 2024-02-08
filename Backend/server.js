@@ -70,6 +70,10 @@ app.use(expressMiddleware(server));
 //     optionsSuccessStatus:200,
 // }),)
 app.use(cors(corsOptions));
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 // app.use(
 //     '/graphql',
 //     // cors({ origin: [`${process.env.FRONTEND_URL}`] }),
