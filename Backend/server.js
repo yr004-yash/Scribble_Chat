@@ -70,12 +70,12 @@ app.use(expressMiddleware(server));
 //     optionsSuccessStatus:200,
 // }),)
 app.use(cors(corsOptions));
-app.use(
-    '/graphql',
-    // cors({ origin: [`${process.env.FRONTEND_URL}`] }),
-    express.json(),
-    expressMiddleware(server),
-)
+// app.use(
+//     '/graphql',
+//     // cors({ origin: [`${process.env.FRONTEND_URL}`] }),
+//     express.json(),
+//     expressMiddleware(server),
+// )
 
 
 
