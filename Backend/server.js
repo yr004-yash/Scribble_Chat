@@ -55,19 +55,19 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    // cors: {
-    //     origin: 'https://scribble-chat.vercel.app',
-    //     credentials: true
-    // }
+    cors: {
+        origin: 'https://scribble-chat.vercel.app',
+        credentials: true
+    }
 });
 await server.start();
-// app.use(cors({
-//     origin: process.env.FRONTEND_URL,
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//     optionsSuccessStatus:200,
-// }),)
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+    optionsSuccessStatus:200,
+}),)
+// app.use(cors());
 app.use(
     '/graphql',
     // cors({ origin: [`${process.env.FRONTEND_URL}`] }),
