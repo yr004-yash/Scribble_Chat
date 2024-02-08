@@ -228,7 +228,9 @@ io.on('connection', (socket) => {
 
 
 
-
+app.listen(process.env.PORT, () => {
+    console.log('listening on *:3000');
+});
 
 httpServer.listen(process.env.PORT, () => {
     console.log('listening on *:3000');
