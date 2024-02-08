@@ -72,7 +72,10 @@ function Dash() {
 
     useEffect(() => {
         if (id && username && !check) {
-            socket = io(`${import.meta.env.VITE_BACKEND_URL}/`,{withCredentials: true});
+            socket = io(`${import.meta.env.VITE_BACKEND_URL}/`,{
+                transports: ["websocket"],
+                upgrade: false
+            });
             socket.emit('Update_users', { id, username });
             setSocketSetter(socket);
             setCheck(true);

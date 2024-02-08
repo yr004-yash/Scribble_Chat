@@ -29,7 +29,7 @@ import { Server } from 'socket.io';
 const httpServer = http.createServer(app);
  const io = new Server(httpServer, {
     cors: {
-        origin: process.env.FRONTEND_URL ,
+        origin:"*" ,
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
