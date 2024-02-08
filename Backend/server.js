@@ -63,7 +63,15 @@ await server.start();
 //     credentials: true,
 //     optionsSuccessStatus:200,
 // }),)
-app.use(cors());
+
+var corsOptions={
+    origin:allowedOrigins,
+    optionsSuccessStatus : 200,
+}
+app.use(cors(corsOptions));
+app.use(express.urlencoded({
+    extended:true,
+}))
 
 app.use(
     '/graphql',
@@ -226,6 +234,6 @@ io.on('connection', (socket) => {
 
 
 
-httpServer.listen(process.env.PORT, () => {
+httpServer.listen(process.env.PORT, "0.0.0.0" ,() => {
     console.log('listening on *:3000');
 });
