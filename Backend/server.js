@@ -30,7 +30,7 @@ const httpServer = http.createServer(app);
  const io = new Server(httpServer, {
     cors: {
         origin: process.env.FRONTEND_URL ,
-        // methods: ["GET", "POST", "PUT", "DELETE"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
 });
@@ -224,13 +224,6 @@ io.on('connection', (socket) => {
 
 
 
-
-
-
-
-app.listen(process.env.PORT, () => {
-    console.log('listening on *:3000');
-});
 
 httpServer.listen(process.env.PORT, () => {
     console.log('listening on *:3000');
