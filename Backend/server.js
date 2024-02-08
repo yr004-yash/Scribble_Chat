@@ -67,7 +67,7 @@ await server.start();
 //     credentials: true,
 //     optionsSuccessStatus:200,
 // }),)
-app.use(cors());
+// app.use(cors());
 app.use(
 	cors({
 		origin: function (origin, callback) {
