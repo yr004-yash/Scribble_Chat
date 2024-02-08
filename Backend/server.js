@@ -12,6 +12,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import typeDefs from './typedefs.js';
 import resolvers from './Resolvers/index.js'
 import "./conn.js";
+// import socketIO  from 'socket.io';
 const app = express();
 
 
@@ -26,15 +27,13 @@ import http from 'http';
 import { Server } from 'socket.io';
 // code for real time chat application
 const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
+ const io = new Server(httpServer, {
     cors: {
-        origin: process.env.FRONTEND_URL,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true
+        origin: "*",
+        // methods: ["GET", "POST", "PUT", "DELETE"],
+        // credentials: true
     }
 });
-
-
 
 
 
