@@ -44,10 +44,7 @@ const io = new Server(httpServer, {
 
 
 
-const corsOptions = {
-    origin: process.env.FRONTEND_URL,
-    credentials: true
-};
+
 
 
 app.get('/', (req, res) => {
@@ -58,28 +55,25 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    cors: corsOptions,
-    cache: new InMemoryCache()
+    cors: {
+        origin: 'https://scribble-chat.vercel.app',
+        credentials: true
+    }
 });
 await server.start();
-app.use(expressMiddleware(server));
-// app.use(cors({
-//     origin: process.env.FRONTEND_URL,
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//     optionsSuccessStatus:200,
-// }),)
-app.use(cors(corsOptions));
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
-// app.use(
-//     '/graphql',
-//     // cors({ origin: [`${process.env.FRONTEND_URL}`] }),
-//     express.json(),
-//     expressMiddleware(server),
-// )
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+    optionsSuccessStatus:200,
+}),)
+// app.use(cors());
+app.use(
+    '/graphql',
+    // cors({ origin: [`${process.env.FRONTEND_URL}`] }),
+    express.json(),
+    expressMiddleware(server),
+)
 
 
 
