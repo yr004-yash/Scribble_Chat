@@ -300,24 +300,7 @@ const Draw = ({ sockett }) => {
     const [selectedTool, setSelectedTool] = useState('pencil');
     const isDrawing = useRef(false);
 
-    // useEffect to handle socket events
-    useEffect(() => {
-        sockett?.on('Updated drawing for users', (lines) => {
-            setLines(lines);
-        });
-
-        sockett?.on('clear frontend', space => {
-            setLines([]);
-        });
-
-        // Clean up event listeners
-        return () => {
-            sockett?.off('Updated drawing for users');
-            sockett?.off('clear frontend');
-        };
-    }, [sockett]); // Only re-subscribe if sockett changes
-
-    // Event handler for mouse down
+    // Event handlers for mouse down, move, and up
     const handleMouseDown = (e) => {
         if (usernm === localStorage.getItem('name')) {
             isDrawing.current = true;
@@ -331,19 +314,15 @@ const Draw = ({ sockett }) => {
                 height: 0,
                 radius: 0,
             };
-            // Update lines state
             setLines(prevLines => [...prevLines, newShape]);
-            // Emit socket event
             sockett?.emit('Updated drawing for backend', [...lines, newShape]);
         }
     };
 
-    // Event handler for mouse move
     const handleMouseMove = (e) => {
         if (isDrawing.current && usernm === localStorage.getItem('name')) {
             const stage = e.target.getStage();
             const point = stage.getPointerPosition();
-            // Update lines state
             setLines(prevLines => {
                 const updatedLines = [...prevLines];
                 const lastLine = updatedLines[updatedLines.length - 1];
@@ -361,12 +340,10 @@ const Draw = ({ sockett }) => {
                 }
                 return updatedLines;
             });
-            // Emit socket event
             sockett?.emit('Updated drawing for backend', lines);
         }
     };
 
-    // Event handler for mouse up
     const handleMouseUp = () => {
         if (usernm === localStorage.getItem('name')) {
             isDrawing.current = false;
@@ -380,12 +357,7 @@ const Draw = ({ sockett }) => {
         sockett?.emit('clear', space);
     };
 
-    // Styles for canvas
-    const canvasStyles = {
-        width: '100%',
-        height: '88%',
-        overflowX: 'hidden',
-    };
+    // Canvas dimensions
     const canvasWidth = 2 * window.innerWidth / 3;
     const canvasHeight = window.innerHeight;
 
@@ -473,7 +445,7 @@ const Draw = ({ sockett }) => {
                     </div>
                 )}
             </div>
-            <div style={canvasStyles}>
+            <div style={{ width: '100%', height: '88%', overflowX: 'hidden' }}>
                 {/* Canvas for drawing */}
                 <Stage
                     width={canvasWidth}
@@ -534,4 +506,5 @@ const Draw = ({ sockett }) => {
 };
 
 export default Draw;
+
 
