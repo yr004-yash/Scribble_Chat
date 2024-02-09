@@ -24,10 +24,10 @@ const Word = ({ sockett }) => {
 
     useEffect(() => {
         sockett?.on('Inivisible Button', (space) => {
-            setButtonVisibility(true);
+            setButtonVisibility(false);
         });
         sockett?.on('Inivisible Button for new user', () => {
-                setButtonVisibility(true);
+            setButtonVisibility(true);
         });
 
         sockett?.on('Who is drawing', (usernm) => {
@@ -47,7 +47,7 @@ const Word = ({ sockett }) => {
         });
         sockett?.on('Clear frontend for word component', (space) => {
             // console.log(isButtonVisible);
-            setButtonVisibility(false);
+            setButtonVisibility(true);
             setwords(null);
             setuser(null);
             settimer(-1);
@@ -125,7 +125,7 @@ const Word = ({ sockett }) => {
                 )
                 }
             {/* </div> */}
-            {!isButtonVisible ? (
+            {isButtonVisible ? (
                 <Button id="generateWordsButton" 
                         variant="contained" 
                         onClick={handleGenerateWords} 

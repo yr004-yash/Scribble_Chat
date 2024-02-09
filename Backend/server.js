@@ -111,9 +111,10 @@ io.on('connection', (socket) => {
                 } catch (e) {
                     console.log(e);
                 }
+                io.to(socket.id).emit('Inivisible Button for new user');
             }
             else {
-                io.to(socket.id).emit('Inivisible Button for new user');
+                // io.to(socket.id).emit('Inivisible Button for new user');
             }
 
             usersocket[id].push(socket.id);
