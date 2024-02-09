@@ -32,7 +32,7 @@ const Draw = ({ sockett }) => {
             sockett?.off('clear frontend');
             sockett?.off('Updated drawing for new user');
         };
-    }, [sockett, lines]);
+    }, [sockett]);
 
 
     const handleMouseDown = (e) => {
