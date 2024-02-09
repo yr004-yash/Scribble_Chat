@@ -299,30 +299,27 @@ const Draw = ({ sockett }) => {
     const [lines, setLines] = useState([]);
     const [selectedTool, setSelectedTool] = useState('pencil');
     const isDrawing = useRef(false);
+    const drawingRef = useRef([]);
 
+    useEffect(() => {
+        sockett?.on('Updated drawing for users', (lines) => {
+            setLines(lines);
+        });
 
+        sockett?.on('clear frontend', space => {
+            setLines([]);
+        });
 
-                useEffect(() => {
-                sockett?.on('Updated drawing for users', (lines) => {
-                    setLines(lines);
-                });
-        
-                sockett?.on('clear frontend', space => {
-                    setLines([]);
-                });
+        sockett?.on('Updated drawing for new user', (lines) => {
+            setLines(lines);
+        });
 
-                sockett?.on('Updated drawing for new user', (lines) => {
-                    setLines(lines);
-                });
-        
-                return () => {
-                    sockett?.off('Updated drawing for users');
-                    sockett?.off('clear frontend');
-                    sockett?.off('Updated drawing for new user');
-                };
-            }, [sockett]);
-        
-            
+        return () => {
+            sockett?.off('Updated drawing for users');
+            sockett?.off('clear frontend');
+            sockett?.off('Updated drawing for new user');
+        };
+    }, [sockett]);
 
     const handleMouseDown = (e) => {
         if (usernm === localStorage.getItem('name')) {
@@ -338,6 +335,7 @@ const Draw = ({ sockett }) => {
                 radius: 0,
             };
             setLines((prevLines) => [...prevLines, newShape]);
+            drawingRef.current.push(newShape);
             sockett?.emit('Updated drawing for backend', [...lines, newShape]);
         }
     };
@@ -346,22 +344,20 @@ const Draw = ({ sockett }) => {
         if (isDrawing.current && usernm === localStorage.getItem('name')) {
             const stage = e.target.getStage();
             const point = stage.getPointerPosition();
-            setLines((prevLines) => {
-                const updatedLines = [...prevLines];
-                const lastLine = updatedLines[updatedLines.length - 1];
-                if (lastLine) {
-                    if (selectedTool === 'pencil') {
-                        lastLine.points = lastLine.points.concat([point.x, point.y]);
-                    } else if (selectedTool === 'rectangle') {
-                        lastLine.width = point.x - lastLine.x;
-                        lastLine.height = point.y - lastLine.y;
-                    } else if (selectedTool === 'circle') {
-                        lastLine.radius = Math.sqrt(Math.pow(point.x - lastLine.x, 2) + Math.pow(point.y - lastLine.y, 2));
-                    }
+            const updatedLines = drawingRef.current.map((line) => {
+                const newLine = { ...line };
+                if (newLine.tool === 'pencil') {
+                    newLine.points = newLine.points.concat([point.x, point.y]);
+                } else if (newLine.tool === 'rectangle') {
+                    newLine.width = point.x - newLine.x;
+                    newLine.height = point.y - newLine.y;
+                } else if (newLine.tool === 'circle') {
+                    newLine.radius = Math.sqrt(Math.pow(point.x - newLine.x, 2) + Math.pow(point.y - newLine.y, 2));
                 }
-                return updatedLines;
+                return newLine;
             });
-            sockett?.emit('Updated drawing for backend', lines);
+            setLines(updatedLines);
+            sockett?.emit('Updated drawing for backend', updatedLines);
         }
     };
 
@@ -446,7 +442,7 @@ const Draw = ({ sockett }) => {
     );
 };
 
-const Drawing = ({ line }) => {
+const Drawing = React.memo(({ line }) => {
     const { tool, points, x, y, width, height, radius } = line;
     if (tool === 'pencil') {
         return <Line points={points} stroke="black" strokeWidth={2} tension={0.5} lineCap="round" />;
@@ -456,7 +452,7 @@ const Drawing = ({ line }) => {
         return <Circle x={x} y={y} radius={radius} stroke="black" strokeWidth={2} />;
     }
     return null;
-};
+});
 
 const canvasStyles = {
     width: '100%',
