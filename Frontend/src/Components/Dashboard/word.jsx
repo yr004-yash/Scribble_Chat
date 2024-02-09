@@ -11,7 +11,7 @@ const Word = ({ sockett }) => {
 
     const { setHiddenWordValue, setusrr } = useHiddenContext();
 
-    const [isButtonVisible, setButtonVisibility] = useState(true);
+    const [isButtonVisible, setButtonVisibility] = useState(false);
     const [words, setwords] = useState(null);
     const [usernm, setuser] = useState(null);
     const [timer, settimer] = useState(-1);
@@ -23,15 +23,11 @@ const Word = ({ sockett }) => {
     
 
     useEffect(() => {
-        // console.log(isButtonVisible);
         sockett?.on('Inivisible Button', (space) => {
-            console.log(11);
-            setButtonVisibility(false);
+            setButtonVisibility(true);
         });
         sockett?.on('Inivisible Button for new user', () => {
-            // if(timer==-1){
-                setButtonVisibility(false);
-            // }
+                setButtonVisibility(true);
         });
 
         sockett?.on('Who is drawing', (usernm) => {
@@ -51,7 +47,7 @@ const Word = ({ sockett }) => {
         });
         sockett?.on('Clear frontend for word component', (space) => {
             // console.log(isButtonVisible);
-            setButtonVisibility(true);
+            setButtonVisibility(false);
             setwords(null);
             setuser(null);
             settimer(-1);
@@ -129,7 +125,7 @@ const Word = ({ sockett }) => {
                 )
                 }
             {/* </div> */}
-            {isButtonVisible ? (
+            {!isButtonVisible ? (
                 <Button id="generateWordsButton" 
                         variant="contained" 
                         onClick={handleGenerateWords} 
