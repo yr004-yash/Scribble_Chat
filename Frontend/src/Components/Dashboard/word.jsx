@@ -18,12 +18,14 @@ const Word = ({ sockett }) => {
     const [restartEmitted, setRestartEmitted] = useState(false);
     const [wordButtonDisabled, setWordButtonDisabled] = useState(false);
     const [selectedbutton,setselectedbutton]=useState(null);
-
+    const [check,setcheckk]=useState(false);
    
-
+    
 
     useEffect(() => {
+        // console.log(isButtonVisible);
         sockett?.on('Inivisible Button', (space) => {
+            console.log(11);
             setButtonVisibility(false);
         });
         sockett?.on('Inivisible Button for new user', () => {
@@ -48,6 +50,7 @@ const Word = ({ sockett }) => {
             settimer(timerr);
         });
         sockett?.on('Clear frontend for word component', (space) => {
+            // console.log(isButtonVisible);
             setButtonVisibility(true);
             setwords(null);
             setuser(null);
@@ -56,8 +59,9 @@ const Word = ({ sockett }) => {
             setHiddenWordValue(null);
             setusrr(null);
             setselectedbutton(null);
+            setcheckk(true);
         });
-    }, [sockett]);
+    }, [isButtonVisible]);
 
 
     const handleGenerateWords = () => {
@@ -78,6 +82,7 @@ const Word = ({ sockett }) => {
     };
 
     useEffect(() => {
+        // if(check){
         let interval;
         if (timer > 0) {
             interval = setInterval(() => {
@@ -85,7 +90,7 @@ const Word = ({ sockett }) => {
                 sockett?.emit('Update timer', timer - 1);
             }, 1000);
         }
-        else if (timer <= 0 && !restartEmitted) {
+        else if (timer == 0 && !restartEmitted) {
             clearInterval(interval);
             var space = "";
             sockett?.emit('Restart all', space);
@@ -94,6 +99,7 @@ const Word = ({ sockett }) => {
 
         // Clean up the interval on component unmount
         return () => clearInterval(interval);
+    // }
     }, [timer, sockett, restartEmitted]);
 
 
