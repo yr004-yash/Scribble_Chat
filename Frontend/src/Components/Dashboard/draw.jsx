@@ -290,9 +290,11 @@ import cir from './circle.gif';
 
 const Draw = ({ sockett }) => {
     const { usernm } = useHiddenContext();
+    const stageRef = useRef(null);
     const [lines, setLines] = useState([]);
     const [selectedTool, setSelectedTool] = useState('pencil');
     const isDrawing = useRef(false);
+    const lastLine = useRef(null);
 
     useEffect(() => {
         sockett?.on('Updated drawing for users', (lines) => {
@@ -318,7 +320,7 @@ const Draw = ({ sockett }) => {
         if (usernm === localStorage.getItem('name')) {
             isDrawing.current = true;
             const { x, y } = e.target.getStage().getPointerPosition();
-            const newLine = {
+            lastLine.current = {
                 tool: selectedTool,
                 points: selectedTool === 'pencil' ? [x, y] : [],
                 x,
@@ -327,15 +329,14 @@ const Draw = ({ sockett }) => {
                 height: 0,
                 radius: 0,
             };
-            setLines([...lines, newLine]);
-            sockett?.emit('Updated drawing for backend', [...lines, newLine]);
+            setLines([...lines, lastLine.current]);
+            sockett?.emit('Updated drawing for backend', [...lines, lastLine.current]);
         }
     };
 
     const handleMouseMove = (e) => {
         if (usernm === localStorage.getItem('name') && isDrawing.current) {
-            const stage = e.target.getStage();
-            const point = stage.getPointerPosition();
+            const point = stageRef.current.getPointerPosition();
             const updatedLines = lines.map((line, index) => {
                 if (index === lines.length - 1) {
                     const updatedLine = { ...line };
@@ -409,6 +410,7 @@ const Draw = ({ sockett }) => {
                     onTouchStart={handleMouseDown}
                     onTouchMove={handleMouseMove}
                     onTouchEnd={handleMouseUp}
+                    ref={stageRef}
                 >
                     <Layer>
                         {lines.map((line, index) => {
