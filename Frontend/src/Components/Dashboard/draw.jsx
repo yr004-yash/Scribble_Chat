@@ -279,16 +279,14 @@
 // export default Draw;
 
 import React, { useState, useEffect, useRef } from 'react';
-import _ from 'lodash'; // Import lodash
-import axios from 'axios';
 import { Stage, Layer, Line, Rect, Circle } from 'react-konva';
 import { Button } from '@mui/material';
 import { useHiddenContext } from './hiddencontext';
 import './draw.css';
-import pencilbg from './wired-lineal-35-edit.gif'
-import clearcanva from './wired-lineal-185-trash-bin.gif'
-import rect from './rectangle.gif'
-import cir from './circle.gif'
+import pencilbg from './wired-lineal-35-edit.gif';
+import clearcanva from './wired-lineal-185-trash-bin.gif';
+import rect from './rectangle.gif';
+import cir from './circle.gif';
 
 const Draw = ({ sockett }) => {
     const { usernm } = useHiddenContext();
@@ -296,17 +294,15 @@ const Draw = ({ sockett }) => {
     const [selectedTool, setSelectedTool] = useState('pencil');
     const isDrawing = useRef(false);
 
-    // Throttle mouse move events using lodash
-    const throttledMouseMove = useRef(_.throttle(handleMouseMove, 16)); // Adjust throttle time as needed
-
     useEffect(() => {
         sockett?.on('Updated drawing for users', (lines) => {
             setLines(lines);
         });
 
-        sockett?.on('clear frontend', space => {
+        sockett?.on('clear frontend', () => {
             setLines([]);
         });
+
         sockett?.on('Updated drawing for new user', (lines) => {
             setLines(lines);
         });
@@ -318,108 +314,63 @@ const Draw = ({ sockett }) => {
         };
     }, [sockett]);
 
-
     const handleMouseDown = (e) => {
-        if (usernm == localStorage.getItem('name')) {
+        if (usernm === localStorage.getItem('name')) {
             isDrawing.current = true;
             const { x, y } = e.target.getStage().getPointerPosition();
-
-            if (selectedTool === 'pencil') {
-                const newLine = { tool: 'pencil', points: [x, y] };
-                setLines([...lines, newLine]);
-
-                sockett?.emit('Updated drawing for backend', [...lines, newLine]);
-            } else if (selectedTool === 'rectangle') {
-                const newRect = {
-                    tool: 'rectangle',
-                    x: x,
-                    y: y,
-                    width: 0,
-                    height: 0,
-                };
-                setLines([...lines, newRect]);
-
-                sockett?.emit('Updated drawing for backend', [...lines, newRect]);
-            } else if (selectedTool === 'circle') {
-                const newCircle = {
-                    tool: 'circle',
-                    x: x,
-                    y: y,
-                    radius: 0,
-                };
-                setLines([...lines, newCircle]);
-                sockett?.emit('Updated drawing for backend', [...lines, newCircle]);
-            }
+            const newLine = {
+                tool: selectedTool,
+                points: selectedTool === 'pencil' ? [x, y] : [],
+                x,
+                y,
+                width: 0,
+                height: 0,
+                radius: 0,
+            };
+            setLines([...lines, newLine]);
+            sockett?.emit('Updated drawing for backend', [...lines, newLine]);
         }
     };
 
-    // Replace handleMouseMove with throttled version
     const handleMouseMove = (e) => {
-        if (usernm == localStorage.getItem('name')) {
-            if (!isDrawing.current) return;
-
+        if (usernm === localStorage.getItem('name') && isDrawing.current) {
             const stage = e.target.getStage();
             const point = stage.getPointerPosition();
-            let lastLine = lines[lines.length - 1];
-
-            if (!lastLine) {
-                lastLine = {
-                    tool: selectedTool,
-                    points: [],
-                    x: point.x,
-                    y: point.y,
-                    width: 0,
-                    height: 0,
-                    radius: 0,
-                };
-                setLines([...lines, lastLine]);
-            }
-
-            if (selectedTool === 'pencil') {
-                lastLine.points = lastLine.points.concat([point.x, point.y]);
-            } else if (selectedTool === 'rectangle') {
-                lastLine.width = point.x - lastLine.x;
-                lastLine.height = point.y - lastLine.y;
-            } else if (selectedTool === 'circle') {
-                lastLine.radius = Math.sqrt(
-                    Math.pow(point.x - lastLine.x, 2) + Math.pow(point.y - lastLine.y, 2)
-                );
-            }
-
-            setLines([...lines.slice(0, -1), lastLine]);
-
-            sockett?.emit('Updated drawing for backend', [...lines.slice(0, -1), lastLine]);
+            const updatedLines = lines.map((line, index) => {
+                if (index === lines.length - 1) {
+                    const updatedLine = { ...line };
+                    if (selectedTool === 'pencil') {
+                        updatedLine.points = updatedLine.points.concat([point.x, point.y]);
+                    } else if (selectedTool === 'rectangle') {
+                        updatedLine.width = point.x - updatedLine.x;
+                        updatedLine.height = point.y - updatedLine.y;
+                    } else if (selectedTool === 'circle') {
+                        updatedLine.radius = Math.sqrt(Math.pow(point.x - updatedLine.x, 2) + Math.pow(point.y - updatedLine.y, 2));
+                    }
+                    return updatedLine;
+                }
+                return line;
+            });
+            setLines(updatedLines);
+            sockett?.emit('Updated drawing for backend', updatedLines);
         }
-    };
-
-    const handleMouseMoveThrottled = (e) => {
-        throttledMouseMove.current(e);
     };
 
     const handleMouseUp = () => {
-        if (usernm == localStorage.getItem('name')) {
+        if (usernm === localStorage.getItem('name')) {
             isDrawing.current = false;
         }
     };
 
     const clearCanvas = () => {
         setLines([]);
-        var space = "";
-        sockett?.emit('clear', space);
+        sockett?.emit('clear', '');
     };
-
-    const canvasStyles = {
-        width: '100%',
-        height: '88%',
-        overflowX: 'hidden',
-    };
-    const canvasWidth = 2 * window.innerWidth / 3;
-    const canvasHeight = window.innerHeight;
 
     return (
         <div className="h-full" style={{ width: '100%' }}>
             <div style={{ height: '12%', width: '100%' }}>
-                {usernm == localStorage.getItem('name') ? (
+                {usernm === localStorage.getItem('name') ? (
                     <div style={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -430,120 +381,47 @@ const Draw = ({ sockett }) => {
                         overflowY: 'hidden',
                     }}>
                         <Button variant="contained" onClick={() => setSelectedTool('pencil')}
-                            style={{
-                                height: '80%',
-                                width: `20%`,
-                                background: `linear-gradient(45deg, #2175F3, #21AAF3)`,
-                                backgroundSize: 'cover',
-                                borderRadius: '5px',
-                                boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)',
-                                transition: 'background 0.3s, transform 0.3s',
-                                transform: selectedTool === 'pencil' ? 'scale(0.8)' : 'scale(1)',
-                                fontSize: '80%',
-                                fontStretch: 'condensed',
-                                margin: '1%',
-                            }}>
+                            style={{ height: '80%', width: '20%', background: `linear-gradient(45deg, #2175F3, #21AAF3)`, backgroundSize: 'cover', borderRadius: '5px', boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)', transition: 'background 0.3s, transform 0.3s', transform: selectedTool === 'pencil' ? 'scale(0.8)' : 'scale(1)', fontSize: '80%', fontStretch: 'condensed', margin: '1%' }}>
                             <img src={pencilbg} style={{ height: '100%', width: 'auto', marginRight: '1px' }} />
                         </Button>
                         <Button variant="contained" onClick={() => setSelectedTool('rectangle')}
-                            style={{
-                                height: '80%',
-                                width: `20%`,
-                                background: `linear-gradient(45deg, #2175F3, #21AAF3)`,
-                                backgroundSize: 'cover',
-                                borderRadius: '5px',
-                                boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)',
-                                transition: 'background 0.3s, transform 0.3s',
-                                transform: selectedTool === 'rectangle' ? 'scale(0.8)' : 'scale(1)',
-                                fontSize: '80%',
-                                fontStretch: 'condensed',
-                                margin: '1%',
-                            }}>
+                            style={{ height: '80%', width: '20%', background: `linear-gradient(45deg, #2175F3, #21AAF3)`, backgroundSize: 'cover', borderRadius: '5px', boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)', transition: 'background 0.3s, transform 0.3s', transform: selectedTool === 'rectangle' ? 'scale(0.8)' : 'scale(1)', fontSize: '80%', fontStretch: 'condensed', margin: '1%' }}>
                             <img src={rect} style={{ height: '100%', width: 'auto', marginRight: '1px' }} />
                         </Button>
                         <Button variant="contained" onClick={() => setSelectedTool('circle')}
-                            style={{
-                                height: '80%',
-                                width: `20%`,
-                                background: `linear-gradient(45deg, #2175F3, #21AAF3)`,
-                                backgroundSize: 'cover',
-                                borderRadius: '5px',
-                                boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)',
-                                transition: 'background 0.3s, transform 0.3s',
-                                transform: selectedTool === 'circle' ? 'scale(0.8)' : 'scale(1)',
-                                fontSize: '80%',
-                                fontStretch: 'condensed',
-                                margin: '1%',
-                            }}>
+                            style={{ height: '80%', width: '20%', background: `linear-gradient(45deg, #2175F3, #21AAF3)`, backgroundSize: 'cover', borderRadius: '5px', boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)', transition: 'background 0.3s, transform 0.3s', transform: selectedTool === 'circle' ? 'scale(0.8)' : 'scale(1)', fontSize: '80%', fontStretch: 'condensed', margin: '1%' }}>
                             <img src={cir} style={{ height: '100%', width: 'auto', marginRight: '1px' }} />
                         </Button>
                         <Button variant="contained" onClick={clearCanvas}
-                            style={{
-                                height: '80%',
-                                width: `20%`,
-                                background: `linear-gradient(45deg, #2175F3, #21AAF3)`,
-                                backgroundSize: 'cover',
-                                borderRadius: '5px',
-                                boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)',
-                                transition: 'background 0.3s, transform 0.3s',
-                                fontSize: '80%',
-                                fontStretch: 'condensed',
-                                margin: '1%',
-                            }}>
+                            style={{ height: '80%', width: '20%', background: `linear-gradient(45deg, #2175F3, #21AAF3)`, backgroundSize: 'cover', borderRadius: '5px', boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)', transition: 'background 0.3s, transform 0.3s', fontSize: '80%', fontStretch: 'condensed', margin: '1%', }}>
                             <img src={clearcanva} style={{ height: '100%', width: 'auto', marginRight: '1px' }} />
                         </Button>
                     </div>
                 ) : ""}
             </div>
-            <div style={canvasStyles}>
+            <div style={{ width: '100%', height: '88%', overflowX: 'hidden' }}>
                 <Stage
-                    width={canvasWidth}
-                    height={canvasHeight}
+                    width={window.innerWidth * 2 / 3}
+                    height={window.innerHeight}
                     onMouseDown={handleMouseDown}
-                    onMousemove={handleMouseMoveThrottled} // Use throttled mouse move handler
-                    onMouseup={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
                     onTouchStart={handleMouseDown}
-                    onTouchMove={handleMouseMoveThrottled} // Use throttled mouse move handler
+                    onTouchMove={handleMouseMove}
                     onTouchEnd={handleMouseUp}
                 >
                     <Layer>
                         {lines.map((line, index) => {
-                            if (line.tool === 'pencil') {
-                                return (
-                                    <Line
-                                        key={index}
-                                        points={line.points}
-                                        stroke="black"
-                                        strokeWidth={2}
-                                        tension={0.5}
-                                        lineCap="round"
-                                    />
-                                );
-                            } else if (line.tool === 'rectangle') {
-                                return (
-                                    <Rect
-                                        key={index}
-                                        x={line.x}
-                                        y={line.y}
-                                        width={line.width}
-                                        height={line.height}
-                                        stroke="black"
-                                        strokeWidth={2}
-                                    />
-                                );
-                            } else if (line.tool === 'circle') {
-                                return (
-                                    <Circle
-                                        key={index}
-                                        x={line.x}
-                                        y={line.y}
-                                        radius={line.radius}
-                                        stroke="black"
-                                        strokeWidth={2}
-                                    />
-                                );
+                            switch (line.tool) {
+                                case 'pencil':
+                                    return <Line key={index} points={line.points} stroke="black" strokeWidth={2} tension={0.5} lineCap="round" />;
+                                case 'rectangle':
+                                    return <Rect key={index} x={line.x} y={line.y} width={line.width} height={line.height} stroke="black" strokeWidth={2} />;
+                                case 'circle':
+                                    return <Circle key={index} x={line.x} y={line.y} radius={line.radius} stroke="black" strokeWidth={2} />;
+                                default:
+                                    return null;
                             }
-                            return null;
                         })}
                     </Layer>
                 </Stage>
