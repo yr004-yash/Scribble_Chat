@@ -136,7 +136,7 @@ io.on('connection', (socket) => {
 
     socket.on('Updated drawing for backend', (lines) => {
         roomdrawing[mapping[socket.id]] = lines;
-        io.to(mapping[socket.id]).emit("Updated drawing for users", lines);
+        socket.broadcast.to(mapping[socket.id]).emit("Updated drawing for users", lines);
     })
     socket.on('clear', (space) => {
         io.to(mapping[socket.id]).emit('clear frontend');
