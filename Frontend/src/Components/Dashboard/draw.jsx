@@ -290,7 +290,6 @@ import cir from './circle.gif';
 
 const Draw = ({ sockett }) => {
     const { usernm } = useHiddenContext();
-    const stageRef = useRef(null);
     const [lines, setLines] = useState([]);
     const [selectedTool, setSelectedTool] = useState('pencil');
     const isDrawing = useRef(false);
@@ -336,7 +335,7 @@ const Draw = ({ sockett }) => {
 
     const handleMouseMove = (e) => {
         if (usernm === localStorage.getItem('name') && isDrawing.current) {
-            const point = stageRef.current.getPointerPosition();
+            const point = e.target.getStage().getPointerPosition();
             const updatedLines = lines.map((line, index) => {
                 if (index === lines.length - 1) {
                     const updatedLine = { ...line };
@@ -410,7 +409,6 @@ const Draw = ({ sockett }) => {
                     onTouchStart={handleMouseDown}
                     onTouchMove={handleMouseMove}
                     onTouchEnd={handleMouseUp}
-                    ref={stageRef}
                 >
                     <Layer>
                         {lines.map((line, index) => {
@@ -433,4 +431,3 @@ const Draw = ({ sockett }) => {
 };
 
 export default Draw;
-
