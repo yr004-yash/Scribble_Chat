@@ -110,7 +110,7 @@ const Word = ({ sockett }) => {
                 if (usr == localStorage.getItem('name')) {
                     sockett?.emit('Updated drawing for backend', Lines);
                 }
-            }, 500); // Emit 'Updated drawing for backend' event every 500 ms
+            }, 200); // Emit 'Updated drawing for backend' event every 500 ms
         } else if (timer === 0 && !restartEmitted) {
             clearInterval(interval);
             clearInterval(drawingUpdateInterval);
