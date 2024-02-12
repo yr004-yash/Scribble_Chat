@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Word = ({ sockett }) => {
 
     const { setHiddenWordValue, setusrr } = useHiddenContext();
-    const { usernamehidden } = useHiddenContext();
+    const { hiddenword } = useHiddenContext();
 
     const [isButtonVisible, setButtonVisibility] = useState(false);
     const [words, setwords] = useState(null);
@@ -97,8 +97,8 @@ const Word = ({ sockett }) => {
             clearInterval(interval);
             var space = "";
             sockett?.emit('Restart all', space);
-            if(usernm==localStorage.getItem('name') && usernamehidden!=null){
-                sockett?.emit('Display correct word', usernamehidden);
+            if(usernm==localStorage.getItem('name') && hiddenword!=null){
+                sockett?.emit('Display correct word',hiddenword);
             }
             setRestartEmitted(true);
         }
