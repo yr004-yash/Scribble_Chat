@@ -21,9 +21,10 @@ function Login() {
         } else if (name.length < 2) {
             navigate('/');
         } else {
+            navigate(`room/${roomid}`);
             localStorage.setItem('name', name);
             try {
-                navigate(`room/${roomid}`);
+                
                 const result = await updateUser({
                   variables: {input: { roomid: roomid, username: name }},
                   refetchQueries: [Total_Users],
