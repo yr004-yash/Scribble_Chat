@@ -31,9 +31,7 @@ const Word = ({ sockett }) => {
         });
 
         sockett?.on('New to game', () => {
-            if(usernm!=null){
-                toast("Game in progress! Hang tight until the current round ends.");
-            }
+            toast("Game in progress! Hang tight until the current round ends.");
         });
 
         sockett?.on('Who is drawing', (usernm) => {
