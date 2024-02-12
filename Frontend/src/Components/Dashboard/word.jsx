@@ -29,7 +29,9 @@ const Word = ({ sockett }) => {
         sockett?.on('Inivisible Button for new user', () => {
             setButtonVisibility(true);
         });
-
+        sockett?.on('Display hidden word', (word) => {
+            toast(`Correct word is : ${word}`);
+        });
         sockett?.on('New to game', () => {
             toast("Game in progress! Hang tight until the current round ends.");
         });
@@ -50,7 +52,6 @@ const Word = ({ sockett }) => {
             settimer(timerr);
         });
         sockett?.on('Clear frontend for word component', (space) => {
-            toast(`The Correct Word : ${setHiddenWordValue}`);
             setButtonVisibility(true);
             setwords(null);
             setuser(null);
@@ -95,6 +96,9 @@ const Word = ({ sockett }) => {
             clearInterval(interval);
             var space = "";
             sockett?.emit('Restart all', space);
+            if(usernm==localStorage.getItem('name')){
+                sockett?.emit('Display correct word', setHiddenWordValue);
+            }
             setRestartEmitted(true);
         }
 

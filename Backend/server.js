@@ -158,6 +158,9 @@ io.on('connection', (socket) => {
         io.to(mapping[socket.id]).emit('Hidden word for frontend', word);
         io.to(socket.id).emit('Chat send disable',space);
     });
+    socket.on('Display correct word', (word) => {
+        socket.broadcast.to(mapping[socket.id]).emit('Display hidden word', word);
+    })
     socket.on('Generate words for a random user', (space) => {
         const ind = 0;
         const randomUsername = usernames[mapping[socket.id]][ind];
