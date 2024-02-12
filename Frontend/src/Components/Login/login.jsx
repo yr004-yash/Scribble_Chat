@@ -21,7 +21,6 @@ function Login() {
         } else if (name.length < 2) {
             navigate('/');
         } else {
-            navigate(`room/${roomid}`);
             localStorage.setItem('name', name);
             try {
                 
@@ -29,6 +28,7 @@ function Login() {
                   variables: {input: { roomid: roomid, username: name }},
                   refetchQueries: [Total_Users],
                 });
+                navigate(`room/${roomid}`);
                 const { token } = result.data.AddUser;
                 localStorage.setItem('token', token);
 
