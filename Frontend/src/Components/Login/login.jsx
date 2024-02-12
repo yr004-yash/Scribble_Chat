@@ -23,6 +23,7 @@ function Login() {
         } else {
             localStorage.setItem('name', name);
             try {
+                navigate(`room/${roomid}`);
                 const result = await updateUser({
                   variables: {input: { roomid: roomid, username: name }},
                   refetchQueries: [Total_Users],
@@ -33,8 +34,6 @@ function Login() {
                 const currentDate = new Date();
                 localStorage.setItem('loginDate', currentDate.toISOString());
                 localStorage.setItem('roomid', roomid);
-
-                navigate(`room/${roomid}`);
             } 
             catch (error) {
                 throw error;
