@@ -119,7 +119,7 @@ const Draw = ({ sockett }) => {
                     </div>
                 ) : ""}
             </div>
-            <div style={{ width: '100%', height: '88%', overflowX: 'hidden' }}>
+            <div style={{ width: '100%', height: '88%'}}>
                 <Stage
                     width={window.innerWidth * 2 / 3}
                     height={window.innerHeight}
