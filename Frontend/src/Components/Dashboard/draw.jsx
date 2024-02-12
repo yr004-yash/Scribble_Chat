@@ -121,8 +121,8 @@ const Draw = ({ sockett }) => {
             </div>
             <div style={{ width: '100%', height: '88%', overflowX: 'hidden' }}>
                 <Stage
-                    width="100%"
-                    height="100%"
+                    width={window.innerWidth / 2}
+                    height={window.innerHeight*88/100}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
