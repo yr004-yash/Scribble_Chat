@@ -39,7 +39,7 @@ const Word = ({ sockett }) => {
 
         sockett?.on('Who is drawing', (usernm) => {
             setuser(usernm);
-            settimer(30);
+            settimer(10);
             setRestartEmitted(false);
             setusrr(usernm);
         });
@@ -97,6 +97,7 @@ const Word = ({ sockett }) => {
             clearInterval(interval);
             var space = "";
             if(usernm==localStorage.getItem('name') && hiddenword!=null){
+                console.log(usernm,localStorage.getItem);
                 sockett?.emit('Display correct word',hiddenword);
             }
             sockett?.emit('Restart all', space);
