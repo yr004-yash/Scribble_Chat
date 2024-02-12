@@ -6,6 +6,7 @@ export const HiddenProvider = ({ children }) => {
   const [hiddenword, setHiddenWord] = useState(null);
   const [usernm, setUsernm] = useState(null);
   const [usernamepoints, setUsernamepoints] = useState([]);
+  const [Lines, updatelines] = useState([]);
 
   const setHiddenWordValue = (value) => {
     setHiddenWord(value);
@@ -19,8 +20,13 @@ export const HiddenProvider = ({ children }) => {
     setUsernamepoints(newUserpoints);
   };
 
+  const updateLines = (lines) => {
+    updatelines(lines);
+  };
+
   return (
-    <HiddenContext.Provider value={{ hiddenword, setHiddenWordValue, usernm, setusrr, usernamepoints, updateUserpoints }}>
+    <HiddenContext.Provider value={{ hiddenword, setHiddenWordValue, usernm, setusrr, usernamepoints, updateUserpoints,Lines,
+    updateLines }}>
       {children}
     </HiddenContext.Provider>
   );

@@ -9,6 +9,7 @@ import rect from './rectangle.gif';
 import cir from './circle.gif';
 
 const Draw = ({ sockett }) => {
+    const { updateLines } = useHiddenContext();
     const { usernm } = useHiddenContext();
     const [lines, setLines] = useState([]);
     const [selectedTool, setSelectedTool] = useState('pencil');
@@ -18,14 +19,17 @@ const Draw = ({ sockett }) => {
     useEffect(() => {
         sockett?.on('Updated drawing for users', (lines) => {
             setLines(lines);
+            updateLines(lines);
         });
 
         sockett?.on('clear frontend', () => {
             setLines([]);
+            updateLines([]);
         });
 
         sockett?.on('Updated drawing for new user', (lines) => {
             setLines(lines);
+            updateLines(lines);
         });
 
         return () => {
@@ -49,7 +53,8 @@ const Draw = ({ sockett }) => {
                 radius: 0,
             };
             setLines([...lines, lastLine.current]);
-            sockett?.emit('Updated drawing for backend', [...lines, lastLine.current]);
+            updateLines([...lines,lastLine.current]);
+            // sockett?.emit('Updated drawing for backend', [...lines, lastLine.current]);
         }
     };
 
@@ -72,7 +77,8 @@ const Draw = ({ sockett }) => {
                 return line;
             });
             setLines(updatedLines);
-            sockett?.emit('Updated drawing for backend', updatedLines);
+            updateLines(updatedLines);
+            // sockett?.emit('Updated drawing for backend', updatedLines);
         }
     };
 
@@ -84,6 +90,7 @@ const Draw = ({ sockett }) => {
 
     const clearCanvas = () => {
         setLines([]);
+        updateLines([]);
         sockett?.emit('clear', '');
     };
 

@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Word = ({ sockett }) => {
 
     const { setHiddenWordValue, setusrr } = useHiddenContext();
-    const { hiddenword ,usernm} = useHiddenContext();
+    const { hiddenword ,usernm, Lines} = useHiddenContext();
 
     const [isButtonVisible, setButtonVisibility] = useState(false);
     const [words, setwords] = useState(null);
@@ -39,7 +39,7 @@ const Word = ({ sockett }) => {
 
         sockett?.on('Who is drawing', (usernm) => {
             setuser(usernm);
-            settimer(10);
+            settimer(30);
             setRestartEmitted(false);
             setusrr(usernm);
         });
@@ -63,6 +63,17 @@ const Word = ({ sockett }) => {
             setselectedbutton(null);
             setcheckk(true);
         });
+        return () => {
+            sockett?.off('Display hidden word');
+            // sockett?.off('Inivisible Button');
+            // sockett?.off('Inivisible Button for new user');
+            sockett?.off('New to game');
+            // sockett?.off('Who is drawing');
+            // sockett?.off('Generated words for user frontend');
+            // sockett?.off('Hidden word for frontend');
+            // sockett?.off('Updated timer for frontend');
+            // sockett?.off('Clear frontend for word component');
+        };
     }, [isButtonVisible]);
 
 
@@ -91,7 +102,11 @@ const Word = ({ sockett }) => {
                 var timee=timer;
                 settimer((prevTimer) => prevTimer - 1);
                 sockett?.emit('Update timer', timee - 1);
-            }, 1000);
+                var usr=usernm;
+                if(usr==localStorage.getItem('name')){
+                    sockett?.emit('Updated drawing for backend', Lines);
+                }
+            }, 500);
         }
         else if (timer == 0 && !restartEmitted) {
             clearInterval(interval);
