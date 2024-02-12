@@ -96,8 +96,8 @@ const Word = ({ sockett }) => {
         else if (timer == 0 && !restartEmitted) {
             clearInterval(interval);
             var space = "";
-            if(usernm==localStorage.getItem('name') && hiddenword!=null){
-                console.log(usernm,localStorage.getItem('name'));
+            var usr=usernm;
+            if(usr==localStorage.getItem('name') && hiddenword!=null){
                 sockett?.emit('Display correct word',hiddenword);
             }
             sockett?.emit('Restart all', space);
