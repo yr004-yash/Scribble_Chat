@@ -88,8 +88,9 @@ const Word = ({ sockett }) => {
         let interval;
         if (timer > 0) {
             interval = setInterval(() => {
+                var timee=timer;
                 settimer((prevTimer) => prevTimer - 1);
-                sockett?.emit('Update timer', timer - 1);
+                sockett?.emit('Update timer', timee - 1);
             }, 1000);
         }
         else if (timer == 0 && !restartEmitted) {
