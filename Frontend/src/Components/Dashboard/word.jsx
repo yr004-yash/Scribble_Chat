@@ -30,6 +30,12 @@ const Word = ({ sockett }) => {
             setButtonVisibility(true);
         });
 
+        sockett?.on('Inivisible Button for new user', () => {
+            if(usernm!=null){
+                toast("Game in progress! Hang tight until the current round ends.");
+            }
+        });
+
         sockett?.on('Who is drawing', (usernm) => {
             setuser(usernm);
             settimer(100);
