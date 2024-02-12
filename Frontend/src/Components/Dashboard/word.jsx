@@ -30,7 +30,7 @@ const Word = ({ sockett }) => {
             setButtonVisibility(true);
         });
 
-        sockett?.on('Inivisible Button for new user', () => {
+        sockett?.on('New to game', () => {
             if(usernm!=null){
                 toast("Game in progress! Hang tight until the current round ends.");
             }

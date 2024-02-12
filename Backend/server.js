@@ -114,7 +114,7 @@ io.on('connection', (socket) => {
                 io.to(socket.id).emit('Inivisible Button for new user');
             }
             else {
-                // io.to(socket.id).emit('Inivisible Button for new user');
+                io.to(socket.id).emit('New to game');
             }
 
             usersocket[id].push(socket.id);
