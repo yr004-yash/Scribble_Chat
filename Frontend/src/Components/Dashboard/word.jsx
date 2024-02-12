@@ -37,11 +37,11 @@ const Word = ({ sockett }) => {
             toast("Game in progress! Hang tight until the current round ends.");
         });
 
-        sockett?.on('Who is drawing', (userr) => {
-            setuser(userr);
+        sockett?.on('Who is drawing', (usernm) => {
+            setuser(usernm);
             settimer(30);
             setRestartEmitted(false);
-            setusrr(userr);
+            setusrr(usernm);
         });
         sockett?.on('Generated words for user frontend', (generatedwords) => {
             setwords(generatedwords);
@@ -96,10 +96,10 @@ const Word = ({ sockett }) => {
         else if (timer == 0 && !restartEmitted) {
             clearInterval(interval);
             var space = "";
-            sockett?.emit('Restart all', space);
             if(usernm==localStorage.getItem('name') && hiddenword!=null){
                 sockett?.emit('Display correct word',hiddenword);
             }
+            sockett?.emit('Restart all', space);
             setRestartEmitted(true);
         }
 
