@@ -39,7 +39,7 @@ const Word = ({ sockett }) => {
 
         sockett?.on('Who is drawing', (usernm) => {
             setuser(usernm);
-            settimer(30);
+            settimer(60);
             setRestartEmitted(false);
             setusrr(usernm);
         });
