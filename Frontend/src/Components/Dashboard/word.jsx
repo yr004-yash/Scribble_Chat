@@ -50,7 +50,7 @@ const Word = ({ sockett }) => {
             settimer(timerr);
         });
         sockett?.on('Clear frontend for word component', (space) => {
-            // console.log(isButtonVisible);
+            toast(`The Correct Word : ${setHiddenWordValue}`);
             setButtonVisibility(true);
             setwords(null);
             setuser(null);

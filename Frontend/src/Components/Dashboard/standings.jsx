@@ -92,7 +92,7 @@ const Standings = ({ sockett }) => {
                                 value > 0 ?
                                     <div key={index} style={{ marginTop: '0.125rem', marginBottom: '0.125', fontFamily: 'Single Day' }}>
                                         <div key={index} className='flex flex-col align-items-center justify-content-center' >
-                                            <b style={{ fontSize: '20px' }}>{username == me ? <div style={{ color: 'green' }}><u>{index + 1}. You</u></div> : (index + 1) + '. ' + username}</b>
+                                            <b style={{ fontSize: '20px' }}>{username == me ? <div style={{ color: 'green' }}><u>{index + 1}. You(${username})</u></div> : (index + 1) + '. ' + username}</b>
                                             <i style={{ fontSize: '13px' }}>{value} points</i>
                                         </div>
                                         <hr></hr>
@@ -100,7 +100,7 @@ const Standings = ({ sockett }) => {
                                     :
                                     <div key={index} style={{ marginTop: '0.125rem', marginBottom: '0.125', fontFamily: 'Single Day' }}>
                                         <div key={index} className='flex flex-col align-items-center justify-content-center' >
-                                            <b style={{ fontSize: '20px' }}>{username == me ? <div style={{ color: 'green' }}><u>{index + 1}. You</u></div> : (index + 1) + '. ' + username}</b>
+                                            <b style={{ fontSize: '20px' }}>{username == me ? <div style={{ color: 'green' }}><u>{index + 1}. You(${username})</u></div> : (index + 1) + '. ' + username}</b>
                                             <i style={{ color: 'red', fontSize: '13px' }}>{value} points</i>
                                         </div>
                                         <hr style={{ color: 'black' }}></hr>
