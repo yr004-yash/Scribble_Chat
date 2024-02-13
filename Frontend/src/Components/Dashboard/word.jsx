@@ -102,9 +102,11 @@ const Word = ({ sockett }) => {
 
         if (timer > 0) {
             interval = setInterval(() => {
-                var timee = timer-1;
-                settimer((prevTimer) => timee);
-                sockett?.emit('Update timer', timee);
+                if (usr == localStorage.getItem('name')){
+                    var timee = timer-1;
+                    settimer((prevTimer) => timee);
+                    sockett?.emit('Update timer', timee);
+                }
             }, 1000); // Timer interval set to 1000 ms
 
             drawingUpdateInterval = setInterval(() => {
