@@ -113,7 +113,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat message for backend', ({ username, message }) => {
-        io.to(mapping[socket.id]).emit('chat for frontend', { username, message });
+        var msg=message.toLowerCase();
+        io.to(mapping[socket.id]).emit('chat for frontend', { username, msg });
     });
 
     socket.on('Update timer', (timerr) => {
