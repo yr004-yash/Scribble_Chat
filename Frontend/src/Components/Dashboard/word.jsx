@@ -4,7 +4,7 @@ import { useHiddenContext } from './hiddencontext';
 import './word.css';
 import Avatar from './avatar';
 import clock from "./clock.gif";
-import { toast } from 'react-toastify';
+import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Word = ({ sockett }) => {
@@ -102,9 +102,9 @@ const Word = ({ sockett }) => {
 
         if (timer > 0) {
             interval = setInterval(() => {
-                var timee = timer;
-                settimer((prevTimer) => prevTimer - 1);
-                sockett?.emit('Update timer', timee - 1);
+                var timee = timer-1;
+                settimer((prevTimer) => timee);
+                sockett?.emit('Update timer', timee);
             }, 1000); // Timer interval set to 1000 ms
 
             drawingUpdateInterval = setInterval(() => {
