@@ -10,7 +10,7 @@ import { Total_Users } from '../../Graphql/users';
 function Login() {
     const [name, setName] = useState('');
     const [roomid, setRoomId] = useState('');
-    const [updateUser,loading,{data}] = useMutation(Add_User);
+    const [updateUser,{loading}] = useMutation(Add_User);
     // const [isLoading, setIsLoading] = useState(false);
     
     const navigate = useNavigate();
