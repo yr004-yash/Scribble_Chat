@@ -91,8 +91,7 @@ function Login() {
                                 onClick={isvalid}
                                 disabled={loading}
                             >
-                                {loading ? 'Loading...' : 'Submit'}
-                                Submit
+                                {loading ? <div style={{color: '#a71313'}}>'Loading...'</div> : 'Submit'}
                             </button>
                         </div>
                     </div>
