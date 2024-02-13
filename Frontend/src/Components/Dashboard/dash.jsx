@@ -20,7 +20,6 @@ import { HiddenProvider } from './hiddencontext.jsx';
 import canvaas from './canvas.jpeg'
 import Avatar from './avatar.jsx';
 import useravatar from "./useravatar.gif"
-// import jwt from 'jsonwebtoken';
 
 function Dash() {
     const navigate = useNavigate();

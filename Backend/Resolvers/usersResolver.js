@@ -21,7 +21,6 @@ const usersResolver = {
             const existingnameroom = await rdata.findOne({ $and: [{ roomid: roomid }, { 'username': username }] });
             if (existingnameroom) {
                 try {
-                    // return existingnameroom;
                 } catch (error) {
                     return res.status(500).json({ error: 'Server error' });
                 }
@@ -30,7 +29,6 @@ const usersResolver = {
                 existingroom.username.push(username);
                 try {
                     const savedEntry = await existingroom.save();
-                    // return savedEntry;
                 } catch (error) {
                     return res.status(500).json({ error: 'Server error' });
                 }
@@ -42,7 +40,6 @@ const usersResolver = {
                 });
                 try {
                     const savedRoom = await newRoom.save();
-                    // return savedRoom;
                 } catch (error) {
                     return res.status(500).json({ error: 'Server error' });
                 }

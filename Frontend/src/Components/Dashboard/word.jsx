@@ -109,7 +109,7 @@ const Word = ({ sockett }) => {
                 //     sockett?.emit('Update timer', timee);
                 // }
                 settimer((prevTimer) => prevTimer-1);
-            }, 1000); // Timer interval set to 1000 ms
+            }, 1000); 
 
             drawingUpdateInterval = setInterval(() => {
                 var usr = usernm;
@@ -148,7 +148,6 @@ const Word = ({ sockett }) => {
             boxShadow: 'inset 0 0 20px rgba(0, 0, 255, 0.6)',
             transition: 'background 0.3s, transform 0.3s',
         }}>
-            {/* <div> */}
             {userr &&
                 (
                     <div className='h-1/2 flex justify-content-center'>
@@ -165,7 +164,6 @@ const Word = ({ sockett }) => {
                     </div>
                 )
             }
-            {/* </div> */}
             {isButtonVisible ? (
                 <Button id="generateWordsButton"
                     variant="contained"

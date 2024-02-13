@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Chat = ({ sockett }) => {
-    //take hiddenword from word compo which is passed through hiddencontext.jsx
     const { hiddenword , updateUserpoints } = useHiddenContext();
     const gradientColor = `linear-gradient(135deg, #001F3F, #001F7F)`;
    
@@ -47,7 +46,6 @@ const Chat = ({ sockett }) => {
     }, [sockett]);
 
     const handleSendMessage = () => {
-        // console.log(hiddenword);
         if(localStorage.getItem('token')!=null){
             if (message.trim() !== '' && ischat) {
                 sockett?.emit('chat message for backend', { username: localStorage.getItem('name'), message });

@@ -14,7 +14,6 @@ function Login() {
     const [name, setName] = useState('');
     const [roomid, setRoomId] = useState('');
     const [updateUser, { loading }] = useMutation(Add_User);
-    // const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
     const isvalid = async (e) => {

@@ -4,7 +4,6 @@ import App from './App';
 // import './index.css' 
 import { ApolloProvider } from '@apollo/client';
 
-// const { client } = require("./GraphQl/ApolloClient")
 import {client} from "./Graphql/conn";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
