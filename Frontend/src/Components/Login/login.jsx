@@ -5,14 +5,17 @@ import './login.css';
 import { useQuery, useLazyQuery, useMutation, gql } from '@apollo/client';
 import { Add_User } from '../../Graphql/users';
 import { Total_Users } from '../../Graphql/users';
+import { lineSpinner } from 'ldrs'
+
+lineSpinner.register()
 
 
 function Login() {
     const [name, setName] = useState('');
     const [roomid, setRoomId] = useState('');
-    const [updateUser,{loading}] = useMutation(Add_User);
+    const [updateUser, { loading }] = useMutation(Add_User);
     // const [isLoading, setIsLoading] = useState(false);
-    
+
     const navigate = useNavigate();
     const isvalid = async (e) => {
         e.preventDefault();
@@ -23,10 +26,10 @@ function Login() {
         } else {
             localStorage.setItem('name', name);
             try {
-                
+
                 const result = await updateUser({
-                  variables: {input: { roomid: roomid, username: name }},
-                  refetchQueries: [Total_Users],
+                    variables: { input: { roomid: roomid, username: name } },
+                    refetchQueries: [Total_Users],
                 });
                 navigate(`room/${roomid}`);
                 const { token } = result.data.AddUser;
@@ -35,10 +38,10 @@ function Login() {
                 const currentDate = new Date();
                 localStorage.setItem('loginDate', currentDate.toISOString());
                 localStorage.setItem('roomid', roomid);
-            } 
+            }
             catch (error) {
                 throw error;
-            }  
+            }
         }
     }
     return (
@@ -87,11 +90,19 @@ function Login() {
                         <div className="flex justify-center mt-5 w-full px-3">
                             <div className="md:flex md:items-center" />
                             <button
-                                className="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-2 rounded-[15px]"
+                                className="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-2 rounded-[15px] w-full px-3"
                                 onClick={isvalid}
                                 disabled={loading}
                             >
-                                {loading ? <div style={{color: '#a71313'}}>Loading...</div> : 'Submit'}
+                                {loading ?
+
+                                    // Default values shown
+                                    <l-line-spinner
+                                        size="20"
+                                        stroke="3"
+                                        speed="1"
+                                        color="black"
+                                    ></l-line-spinner> : 'Submit'}
                             </button>
                         </div>
                     </div>
