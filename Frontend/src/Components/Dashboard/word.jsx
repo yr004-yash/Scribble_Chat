@@ -105,7 +105,7 @@ const Word = ({ sockett }) => {
                 var usr=usernm;
                 if (usr == localStorage.getItem('name')){
                     var timee = timer-1;
-                    settimer((prevTimer) => timee);
+                    settimer((prevTimer) => prevTimer-1);
                     sockett?.emit('Update timer', timee);
                 }
             }, 1000); // Timer interval set to 1000 ms

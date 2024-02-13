@@ -117,7 +117,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('Update timer', (timerr) => {
-        io.to(mapping[socket.id]).emit('Updated timer for frontend', timerr);
+        socket.broadcast.to(mapping[socket.id]).emit('Updated timer for frontend', timerr);
     });
 
     socket.on('Selected word', (word) => {
