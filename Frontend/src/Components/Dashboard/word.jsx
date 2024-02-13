@@ -125,7 +125,9 @@ const Word = ({ sockett }) => {
             if (usr == localStorage.getItem('name') && hiddenword != null) {
                 sockett?.emit('Display correct word', hiddenword);
             }
-            sockett?.emit('Restart all', space);
+            if (usr == localStorage.getItem('name')){
+                sockett?.emit('Restart all', space);
+            }
             setRestartEmitted(true);
         }
 
@@ -133,7 +135,7 @@ const Word = ({ sockett }) => {
             clearInterval(interval);
             clearInterval(drawingUpdateInterval);
         };
-    }, [timer, sockett, restartEmitted]);
+    }, [sockett]);
 
 
     return (
