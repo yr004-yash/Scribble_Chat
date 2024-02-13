@@ -101,7 +101,7 @@ function Login() {
                                         size="20"
                                         stroke="3"
                                         speed="1"
-                                        color="black"
+                                        color="white"
                                     ></l-line-spinner> : 'Submit'}
                             </button>
                         </div>
