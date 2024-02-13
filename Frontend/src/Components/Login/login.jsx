@@ -10,8 +10,8 @@ import { Total_Users } from '../../Graphql/users';
 function Login() {
     const [name, setName] = useState('');
     const [roomid, setRoomId] = useState('');
-    const [updateUser,{data}] = useMutation(Add_User);
-
+    const [updateUser,loading,{data}] = useMutation(Add_User);
+    // const [isLoading, setIsLoading] = useState(false);
     
     const navigate = useNavigate();
     const isvalid = async (e) => {
@@ -89,7 +89,9 @@ function Login() {
                             <button
                                 className="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-2 rounded-[15px]"
                                 onClick={isvalid}
+                                disabled={loading}
                             >
+                                {loading ? 'Loading...' : 'Submit'}
                                 Submit
                             </button>
                         </div>
