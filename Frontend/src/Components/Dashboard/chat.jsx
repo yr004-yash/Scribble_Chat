@@ -23,8 +23,8 @@ const Chat = ({ sockett }) => {
     const messagesRef = useRef(null);
 
     useEffect(() => {
-        sockett?.on('chat for frontend', ({ username, msg }) => {
-            setChatMessages((prevMessages) => [...prevMessages, { username, msg }]);
+        sockett?.on('chat for frontend', ({ username, message }) => {
+            setChatMessages((prevMessages) => [...prevMessages, { username, message }]);
             messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
         });
         sockett?.on('Usernamepoints initialize', (usernamepoints) => {
