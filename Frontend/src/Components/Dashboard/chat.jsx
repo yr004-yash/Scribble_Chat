@@ -75,7 +75,7 @@ const Chat = ({ sockett }) => {
                             </div>
                             <div className='h-full w-4/6'>
                                 <strong style={{ fontSize:'80%', color:'rgb(43, 110, 190)'}}>{msg.username}</strong> 
-                                <div style={{ overflowWrap:'break-word',color:'whitesmoke', width:'100%', backgroundColor:'rgb(43, 110, 200)',borderRadius:'0.375rem',padding:'0.125rem',paddingLeft:'0.3rem'}}>{hiddenword === msg.message ? <div style={{color:'lightgreen'}}>Correct</div> : msg.message}</div>
+                                <div style={{ overflowWrap:'break-word',color:'whitesmoke', width:'100%', backgroundColor:'rgb(43, 110, 200)',borderRadius:'0.375rem',padding:'0.125rem',paddingLeft:'0.3rem'}}>{hiddenword === msg.message.toLowerCase() ? <div style={{color:'lightgreen'}}>Correct</div> : msg.message}</div>
                             </div>
                         </div>
                     ))}
