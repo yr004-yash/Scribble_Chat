@@ -31,9 +31,9 @@ const Word = ({ sockett }) => {
             setButtonVisibility(true);
         });
         sockett?.on('Display hidden word', (word) => {
-            toast.success(`Correct word is : ${word}`, {
-                position: toast.POSITION.TOP_CENTER
-            });
+             toast.success(`Correct word is : ${word}`,{
+                 position: "top-center"
+            }); 
         });
         sockett?.on('New to game', () => {
             toast("Game in progress! Hang tight until the current round ends.");
@@ -134,6 +134,7 @@ const Word = ({ sockett }) => {
 
 
     return (
+       
         <div className='h-full w-full flex flex-col justify-content-center align-items-center' style={{
             background: 'linear-gradient(45deg, #2176F3, #21ABF3)',
             backgroundSize: 'cover',
@@ -208,6 +209,7 @@ const Word = ({ sockett }) => {
             )}
 
         </div>
+        
     );
 
 };
