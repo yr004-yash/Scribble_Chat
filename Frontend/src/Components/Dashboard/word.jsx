@@ -31,7 +31,9 @@ const Word = ({ sockett }) => {
             setButtonVisibility(true);
         });
         sockett?.on('Display hidden word', (word) => {
-            toast(`Correct word is : ${word}`);
+            toast.success(`Correct word is : ${word}`, {
+                position: toast.POSITION.TOP_CENTER
+            });
         });
         sockett?.on('New to game', () => {
             toast("Game in progress! Hang tight until the current round ends.");
