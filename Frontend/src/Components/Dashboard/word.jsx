@@ -102,12 +102,13 @@ const Word = ({ sockett }) => {
 
         if (timer > 0) {
             interval = setInterval(() => {
-                var usr=usernm;
-                if (usr == localStorage.getItem('name')){
-                    var timee = timer-1;
-                    settimer((prevTimer) => prevTimer-1);
-                    sockett?.emit('Update timer', timee);
-                }
+                // var usr=usernm;
+                // if (usr == localStorage.getItem('name')){
+                //     var timee = timer-1;
+                //     settimer((prevTimer) => prevTimer-1);
+                //     sockett?.emit('Update timer', timee);
+                // }
+                settimer((prevTimer) => prevTimer-1);
             }, 1000); // Timer interval set to 1000 ms
 
             drawingUpdateInterval = setInterval(() => {
@@ -135,7 +136,7 @@ const Word = ({ sockett }) => {
             clearInterval(interval);
             clearInterval(drawingUpdateInterval);
         };
-    }, [sockett]);
+    }, [timer, sockett, restartEmitted]);
 
 
     return (
