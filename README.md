@@ -152,6 +152,8 @@ Yash Savani - [@Yash Savani](https://www.linkedin.com/in/yash-savani-43b80b229/)
 
 Project Link: [https://github.com/yr004-yash/Scribble_Chat](https://github.com/yr004-yash/Scribble_Chat)
 
+Deployed Link: [https://scribblechatsavani004.netlify.app](https://scribblechatsavani004.netlify.app)
+
 
 
 
