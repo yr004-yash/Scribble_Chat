@@ -24,7 +24,7 @@ const Chat = ({ sockett }) => {
     useEffect(() => {
         sockett?.on('chat for frontend', ({ username, message }) => {
             setChatMessages((prevMessages) => [...prevMessages, { username, message }]);
-            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+            // messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
         });
         sockett?.on('Usernamepoints initialize', (usernamepoints) => {
             updateUserpoints(usernamepoints);
@@ -44,6 +44,12 @@ const Chat = ({ sockett }) => {
             setchat(false);
         });
     }, [sockett]);
+    
+    useEffect(() => {
+        if (messagesRef.current) {
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
+    }, [chatMessages]);
 
     const handleSendMessage = () => {
         if(localStorage.getItem('token')!=null){
