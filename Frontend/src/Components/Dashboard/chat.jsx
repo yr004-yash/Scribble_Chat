@@ -56,7 +56,7 @@ const Chat = ({ sockett }) => {
             if (message.trim() !== '' && ischat) {
                 sockett?.emit('chat message for backend', { username: localStorage.getItem('name'), message });
                 setMessage('');
-                if (iscorrect == 0 && message==hiddenword) {
+                if (iscorrect == 0 && message.toLowerCase()==hiddenword) {
                     sockett.emit('Points up', { username: localStorage.getItem('name'), indforpoints });
                     setcorr(1);
                 }
