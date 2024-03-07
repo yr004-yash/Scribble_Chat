@@ -1,4 +1,4 @@
-# CodeShare
+# Scrrible Chat
 
 <!-- PROJECT LOGO -->
 <br />
