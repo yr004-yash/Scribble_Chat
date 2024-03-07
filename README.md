@@ -1,4 +1,4 @@
-# Scrrible Chat
+# Scribble Chat
 
 <!-- PROJECT LOGO -->
 <br />
